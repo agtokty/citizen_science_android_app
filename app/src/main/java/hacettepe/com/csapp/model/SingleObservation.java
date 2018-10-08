@@ -14,6 +14,7 @@ public class SingleObservation {
     private String usercode;
     private Date recorded_at;
     private String property;
+    private String note;
 
     public SingleObservation(String request_code, String loc_desc, double loc_lat, double lon_lat, String usercode, Date recorded_at) {
         this.request_code = request_code;
@@ -60,8 +61,8 @@ public class SingleObservation {
         return loc_lon;
     }
 
-    public void setLoc_lon(Double lon_lat) {
-        this.loc_lon = lon_lat;
+    public void setLoc_lon(Double loc_lon) {
+        this.loc_lon = loc_lon;
     }
 
     public Double getMeasurement() {
@@ -94,5 +95,13 @@ public class SingleObservation {
 
     public void setRecorded_at(Date recorded_at) {
         this.recorded_at = recorded_at;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }
