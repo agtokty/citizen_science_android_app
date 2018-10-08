@@ -173,15 +173,17 @@ public class EnterSingleObservation extends BaseBackActivity {
 
             try {
                 try {
-                    webServiceResponse = HttpPost("https://hacettepe-cevre.herokuapp.com/api/observation/", data);
+                    webServiceResponse = HttpPost(Constants.POST_OBSERVATION_API_URL, data);
                     return webServiceResponse;
                     //return "";
                 } catch (JSONException e) {
                     e.printStackTrace();
                     webServiceResponse.error = "Error!";
+                    webServiceResponse.detail = e.toString();
                 }
             } catch (IOException e) {
-                webServiceResponse.error = "Unable to retrieve web page. URL may be invalid.";
+                e.printStackTrace();
+                webServiceResponse.error = "Unable to make request.";
             } finally {
                 progressDialog.dismiss();
             }
@@ -189,7 +191,6 @@ public class EnterSingleObservation extends BaseBackActivity {
             return webServiceResponse;
         }
 
-        // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPreExecute() {
             button_send.setEnabled(false);
@@ -275,7 +276,6 @@ public class EnterSingleObservation extends BaseBackActivity {
         OutputStream os = conn.getOutputStream();
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
         writer.write(jsonString);
-        //Log.i(MainActivity.class.toString(), jsonObject.toString());
         writer.flush();
         writer.close();
         os.close();

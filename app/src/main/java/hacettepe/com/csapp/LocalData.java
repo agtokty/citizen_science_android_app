@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class LocalData {
 
-    private static final String SHARED_PREF_KEY = "JEOLOJI";
+    private static final String SHARED_PREF_KEY = "csapp";
     private Context context;
     private SharedPreferences sharedPreferences;
 

@@ -27,7 +27,6 @@
             android:name=".WellcomeActivity"
             android:theme="@style/NoActionBar" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".EnterDataActivity" />
         <activity android:name=".EnterSingleObservation"></activity>
     </application>
 
