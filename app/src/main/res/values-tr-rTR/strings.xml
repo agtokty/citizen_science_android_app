@@ -3,4 +3,5 @@
     <string name="app_name">Citizen Science App</string>
     <string name="send">Gönder</string>
     <string name="check_internet_conn">İnternet bağlantınızı kontrol ediniz!</string>
+    <string name="data_sent">Veriler başarıyla gönderildi</string>
 </resources>

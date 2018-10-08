@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "csproject.jeoloji.hacettepe.com.hacettepejeolojicitizenscienceapp"
+        applicationId "hacettepe.com.csapp"
         minSdkVersion 14
         targetSdkVersion 27
         versionCode 1

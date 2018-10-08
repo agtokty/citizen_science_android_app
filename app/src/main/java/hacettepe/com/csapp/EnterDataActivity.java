@@ -4,18 +4,22 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -29,15 +33,20 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.ResponseCache;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 import hacettepe.com.csapp.model.SingleObservation;
 import hacettepe.com.csapp.util.BaseActivity;
@@ -47,7 +56,7 @@ public class EnterDataActivity extends BaseActivity {
 
     private long UPDATE_INTERVAL = 10 * 1000;  /* 10 secs */
     private long FASTEST_INTERVAL = 2000; /* 2 sec */
-    Button btn;
+    Button button_send;
     EditText editText_ph, editText_water_temp, editText_nitrat;
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest mLocationRequest;
@@ -79,13 +88,13 @@ public class EnterDataActivity extends BaseActivity {
         setContentView(R.layout.activity_enter_data);
 
 
-        btn = (Button) findViewById(R.id.button_send);
+        button_send = (Button) findViewById(R.id.button_send);
         editText_nitrat = findViewById(R.id.et_nitrat_value);
         editText_water_temp = findViewById(R.id.et_water_temp_value);
         editText_ph = findViewById(R.id.et_ph_value);
 
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        button_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -156,65 +165,122 @@ public class EnterDataActivity extends BaseActivity {
     }
 
 
-    private class HTTPAsyncTask extends AsyncTask<String, Void, String> {
+    private class HTTPAsyncTask extends AsyncTask<String, Void, WebServiceResponse> {
         String data;
+        WebServiceResponse webServiceResponse;
 
         public HTTPAsyncTask(String data) {
             this.data = data;
         }
 
         @Override
-        protected String doInBackground(String... urls) {
+        protected WebServiceResponse doInBackground(String... urls) {
             // params comes from the execute() call: params[0] is the url.
+
             try {
                 try {
-                    return HttpPost("https://hacettepe-cevre.herokuapp.com/api/observation/bulk", data);
+                    webServiceResponse = HttpPost("https://hacettepe-cevre.herokuapp.com/api/observation/bulk", data);
+                    return webServiceResponse;
+                    //return "";
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    return "Error!";
+                    webServiceResponse.error = "Error!";
                 }
             } catch (IOException e) {
-                return "Unable to retrieve web page. URL may be invalid.";
+                webServiceResponse.error = "Unable to retrieve web page. URL may be invalid.";
             } finally {
                 progressDialog.dismiss();
             }
+
+            return webServiceResponse;
         }
 
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPreExecute() {
             //tvResult.setText(result);
+            button_send.setEnabled(false);
             progressDialog.show();
         }
 
-        public void onPostExecute(String result) {
+        @Override
+        protected void onPostExecute(WebServiceResponse webServiceResponse) {
             progressDialog.dismiss();
+
+            if (webServiceResponse.isSucces) {
+                Toast.makeText(getApplicationContext(), R.string.data_sent, Toast.LENGTH_LONG).show();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        onBackPressed();
+                    }
+                }, 2000);
+            } else {
+                Toast.makeText(getApplicationContext(), webServiceResponse.error, Toast.LENGTH_LONG).show();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        button_send.setEnabled(true);
+                    }
+                }, 2000);
+            }
+
         }
     }
 
+    private class WebServiceResponse {
+        public String result;
+        public String error;
+        public String detail;
+        public String[] rollback;
+        public boolean isSucces;
+    }
 
-    private String HttpPost(String myUrl, String json) throws IOException, JSONException {
-        String result = "";
-
+    private WebServiceResponse HttpPost(String myUrl, String json) throws IOException, JSONException {
         URL url = new URL(myUrl);
 
-        // 1. create HttpURLConnection
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
 
-        // 2. build JSON object
-        //JSONObject jsonObject = buidJsonObject();
-
-        // 3. add JSON content to POST request body
         setPostRequestContent(conn, json);
-
-        // 4. make POST request to the given URL
         conn.connect();
 
-        // 5. return response message
-        return conn.getResponseMessage() + "";
+        int responseCode = conn.getResponseCode();
+        WebServiceResponse webServiceResponse = new WebServiceResponse();
+        try {
 
+            InputStream inputStream;
+            if (200 <= responseCode && responseCode <= 299) {
+                inputStream = conn.getInputStream();
+            } else {
+                inputStream = conn.getErrorStream();
+            }
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder response = new StringBuilder();
+            String currentLine;
+            while ((currentLine = in.readLine()) != null)
+                response.append(currentLine);
+            in.close();
+
+            String responseData = response.toString();
+            Gson gson = new Gson();
+
+            webServiceResponse = gson.fromJson(responseData, WebServiceResponse.class);
+
+        } catch (Exception exp) {
+            exp.printStackTrace();
+            webServiceResponse.error = "Can not read response!";
+            webServiceResponse.detail = exp.toString();
+        }
+
+        if (200 <= responseCode && responseCode <= 299)
+            webServiceResponse.isSucces = true;
+
+        return webServiceResponse;
     }
 
     private void setPostRequestContent(HttpURLConnection conn,
