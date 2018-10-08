@@ -1,16 +1,12 @@
 package hacettepe.com.csapp;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -49,6 +45,7 @@ import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 import hacettepe.com.csapp.model.SingleObservation;
+import hacettepe.com.csapp.model.WebServiceResponse;
 import hacettepe.com.csapp.util.BaseActivity;
 import hacettepe.com.csapp.util.BaseBackActivity;
 
@@ -100,7 +97,7 @@ public class EnterDataActivity extends BaseActivity {
 
 
                 if (checkNetworkConnection()) {
-                    getValuesAndSend();
+                    //getValuesAndSend();
                 } else {
                     //TODO - Save to local db
                 }
@@ -116,6 +113,8 @@ public class EnterDataActivity extends BaseActivity {
 
     }
 
+
+    /*
 
     private void getValuesAndSend() {
 
@@ -230,13 +229,6 @@ public class EnterDataActivity extends BaseActivity {
         }
     }
 
-    private class WebServiceResponse {
-        public String result;
-        public String error;
-        public String detail;
-        public String[] rollback;
-        public boolean isSucces;
-    }
 
     private WebServiceResponse HttpPost(String myUrl, String json) throws IOException, JSONException {
         URL url = new URL(myUrl);
@@ -294,7 +286,7 @@ public class EnterDataActivity extends BaseActivity {
         writer.close();
         os.close();
     }
-
+*/
 
     // Trigger new location updates at interval
     protected void startLocationUpdates() {
@@ -384,16 +376,5 @@ public class EnterDataActivity extends BaseActivity {
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 99);
     }
 
-    private JSONObject buidJsonObject() throws JSONException {
-
-        JSONObject jsonMainObject = new JSONObject();
-
-        JSONObject jsonObservation = new JSONObject();
-
-        //jsonObservation.accumulate("name", etName.getText().toString());
-
-
-        return jsonMainObject;
-    }
 
 }

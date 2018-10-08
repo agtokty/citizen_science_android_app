@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="hacettepe.com.csapp.SplashActivity"
+            android:name=".SplashActivity"
             android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,10 +24,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="hacettepe.com.csapp.WellcomeActivity"
+            android:name=".WellcomeActivity"
             android:theme="@style/NoActionBar" />
-        <activity android:name="hacettepe.com.csapp.MainActivity" />
-        <activity android:name="hacettepe.com.csapp.EnterDataActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".EnterDataActivity" />
+        <activity android:name=".EnterSingleObservation"></activity>
     </application>
 
 </manifest>
