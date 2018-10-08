@@ -29,7 +29,7 @@ public class LocalData {
     public String UserCode() {
         String currentUserCode = getStringValue("USER_CODE", "");
         if (currentUserCode == null || currentUserCode.isEmpty()) {
-            currentUserCode = UUID.randomUUID().toString();
+            currentUserCode = UUID.randomUUID().toString().substring(0, 7);
             setStringValue("USER_CODE", currentUserCode);
         }
         return currentUserCode;

@@ -1,8 +1,13 @@
 package hacettepe.com.csapp;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,22 +36,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        /*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, EnterDataActivity.class);
-                startActivity(intent);
-
-            }
-        });
-        */
-
-
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
         mAdapter = new ObservedPropertyAdapter(observedPropertyArrayList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -72,12 +62,50 @@ public class MainActivity extends BaseActivity {
 
         prepareObservedPropertyData();
 
+        checkLocationPermission();
     }
 
     private void prepareObservedPropertyData() {
         observedPropertyArrayList.add(new ObservedProperty("Su Sıcaklığı", ""));
         observedPropertyArrayList.add(new ObservedProperty("Ph", ""));
         observedPropertyArrayList.add(new ObservedProperty("Nitrat", ""));
+    }
+
+
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
+    private void checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                new android.support.v7.app.AlertDialog.Builder(this)
+                        .setTitle(R.string.location_needed)
+                        .setMessage(R.string.location_needed_detail)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                ActivityCompat.requestPermissions(MainActivity.this,
+                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                        MY_PERMISSIONS_REQUEST_LOCATION);
+
+                            }
+                        })
+                        .create()
+                        .show();
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+        }
     }
 
 }

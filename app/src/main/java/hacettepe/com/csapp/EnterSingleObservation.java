@@ -1,13 +1,20 @@
 package hacettepe.com.csapp;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -15,6 +22,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.SettingsClient;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -29,6 +43,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import hacettepe.com.csapp.model.SingleObservation;
@@ -37,6 +52,12 @@ import hacettepe.com.csapp.util.BaseBackActivity;
 import hacettepe.com.csapp.util.Constants;
 
 public class EnterSingleObservation extends BaseBackActivity {
+
+    private long UPDATE_INTERVAL = 8 * 1000;  /* 8 secs */
+    private long FASTEST_INTERVAL = 2000; /* 2 sec */
+    private FusedLocationProviderClient mFusedLocationClient;
+    private LocationRequest mLocationRequest;
+    Location mLastLocation;
 
     TextView tv_description;
     EditText et_value, et_location, et_additional_info;
@@ -78,9 +99,7 @@ public class EnterSingleObservation extends BaseBackActivity {
                     getValuesAndSend();
                 } else {
                     //TODO - Save to local db
-                    Snackbar snackbar = Snackbar
-                            .make(coordinatorLayout, R.string.check_internet_conn, Snackbar.LENGTH_SHORT);
-                    snackbar.show();
+                    Snackbar.make(coordinatorLayout, R.string.check_internet_conn, Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -92,6 +111,9 @@ public class EnterSingleObservation extends BaseBackActivity {
         et_value.requestFocus();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(et_value, InputMethodManager.SHOW_IMPLICIT);
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        startLocationUpdates();
     }
 
 
@@ -115,6 +137,10 @@ public class EnterSingleObservation extends BaseBackActivity {
         //TODO
         double lat = 0;
         double lon = 0;
+        if (mLastLocation != null) {
+            lat = mLastLocation.getLatitude();
+            lon = mLastLocation.getLongitude();
+        }
 
         String requestCode = UUID.randomUUID().toString();
         Date now = new Date();
@@ -254,5 +280,57 @@ public class EnterSingleObservation extends BaseBackActivity {
         writer.close();
         os.close();
     }
+
+
+    // Trigger new location updates at interval
+    protected void startLocationUpdates() {
+
+        // Create the location request to start receiving updates
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(UPDATE_INTERVAL);
+        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+
+        // Create LocationSettingsRequest object using location request
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        builder.addLocationRequest(mLocationRequest);
+        LocationSettingsRequest locationSettingsRequest = builder.build();
+
+        // Check whether location settings are satisfied
+        // https://developers.google.com/android/reference/com/google/android/gms/location/SettingsClient
+        SettingsClient settingsClient = LocationServices.getSettingsClient(this);
+        settingsClient.checkLocationSettings(locationSettingsRequest);
+
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                //Location Permission already granted
+                mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+            } else {
+                //Request Location Permission
+                //checkLocationPermission();
+                Snackbar.make(coordinatorLayout, R.string.location_needed, Snackbar.LENGTH_SHORT).show();
+            }
+        } else {
+            mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+        }
+
+    }
+
+    LocationCallback mLocationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            List<Location> locationList = locationResult.getLocations();
+            if (locationList.size() > 0) {
+                //The last location in the list is the newest
+                Location location = locationList.get(locationList.size() - 1);
+                Log.i("Location", "Location: " + location.getLatitude() + " " + location.getLongitude());
+                mLastLocation = location;
+            }
+        }
+    };
+
 
 }

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Citizen Science App</string>
     <string name="send">Send</string>
+    <string name="ok">OK</string>
     <string name="check_internet_conn">Check your internet connection!</string>
     <string name="data_sent">Data sent successfully</string>
     <string name="measurement">Measurement</string>
@@ -14,4 +15,8 @@
     <string name="app_info">Information about application*</string>
     <string name="continue_">Continue</string>
     <string name="measurement_cannot_empty">Measurement value cannot be empty!</string>
+
+    <string name="location_needed">Location Permission Needed</string>
+    <string name="location_needed_detail">This app needs the Location permission, please accept to use location functionality</string>
+
 </resources>

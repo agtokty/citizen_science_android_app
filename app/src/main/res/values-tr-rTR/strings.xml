@@ -2,17 +2,21 @@
 <resources>
     <string name="app_name">Citizen Science App</string>
     <string name="send">Gönder</string>
+    <string name="ok">Tamam</string>
     <string name="check_internet_conn">İnternet bağlantınızı kontrol ediniz!</string>
     <string name="data_sent">Veriler başarıyla gönderildi</string>
-    <string name="measurement">Ölçüm</string>
+    <string name="measurement">Ölçüm değeri</string>
     <string name="location">Konum Bilgisi</string>
-    <string name="location_optional">Konum Bilgisi</string>
+    <string name="location_optional">Konum Bilgisi (isteğe bağlı)</string>
     <string name="additional_info">Ek bilgi</string>
     <string name="additional_info_optional">Ek bilgi (isteğe bağlı)</string>
     <string name="hacettepe">Hacettepe</string>
     <string name="please_wait">Lütfen bekleyiniz</string>
-    <string name="select_property">Listeden gözlenen özelliği seçip gözleminizi gönderebilirsiniz.</string>
+    <string name="select_property">Listeden gözlediğiniz özelliği seçip ölçümünüzü gönderebilirsiniz.</string>
     <string name="app_info">Uygulama hakkında kısa bir bilgi *</string>
     <string name="continue_">Devam Et</string>
     <string name="measurement_cannot_empty">Ölçüm değeri boş olamaz!</string>
+
+    <string name="location_needed">Konum İzni Gerekmektedir</string>
+    <string name="location_needed_detail">Bu uygulama konum iznine ihtiyaç duymaktadır, lütfen konum özelliğini kullanabilmek için kabul ediniz.</string>
 </resources>
