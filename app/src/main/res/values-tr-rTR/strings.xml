@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Citizen Science App</string>
+    <string name="send">Gönder</string>
+    <string name="check_internet_conn">İnternet bağlantınızı kontrol ediniz!</string>
+</resources>
