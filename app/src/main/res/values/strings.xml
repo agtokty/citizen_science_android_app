@@ -3,4 +3,15 @@
     <string name="send">Send</string>
     <string name="check_internet_conn">Check your internet connection!</string>
     <string name="data_sent">Data sent successfully</string>
+    <string name="measurement">Measurement</string>
+    <string name="location">Location</string>
+    <string name="location_optional">Location (optional)</string>
+    <string name="additional_info">Additional info</string>
+    <string name="additional_info_optional">Additional info (optional)</string>
+    <string name="hacettepe">Hacettepe</string>
+    <string name="please_wait">Please wait</string>
+    <string name="select_property">Select an observed observed property from the list to send observation.</string>
+    <string name="app_info">Information about application*</string>
+    <string name="continue_">Continue</string>
+    <string name="measurement_cannot_empty">Measurement value cannot be empty!</string>
 </resources>

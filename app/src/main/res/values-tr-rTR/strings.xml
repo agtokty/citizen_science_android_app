@@ -4,4 +4,15 @@
     <string name="send">Gönder</string>
     <string name="check_internet_conn">İnternet bağlantınızı kontrol ediniz!</string>
     <string name="data_sent">Veriler başarıyla gönderildi</string>
+    <string name="measurement">Ölçüm</string>
+    <string name="location">Konum Bilgisi</string>
+    <string name="location_optional">Konum Bilgisi</string>
+    <string name="additional_info">Ek bilgi</string>
+    <string name="additional_info_optional">Ek bilgi (isteğe bağlı)</string>
+    <string name="hacettepe">Hacettepe</string>
+    <string name="please_wait">Lütfen bekleyiniz</string>
+    <string name="select_property">Listeden gözlenen özelliği seçip gözleminizi gönderebilirsiniz.</string>
+    <string name="app_info">Uygulama hakkında kısa bir bilgi *</string>
+    <string name="continue_">Devam Et</string>
+    <string name="measurement_cannot_empty">Ölçüm değeri boş olamaz!</string>
 </resources>
