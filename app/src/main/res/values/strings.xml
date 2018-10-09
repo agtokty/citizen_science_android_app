@@ -2,11 +2,13 @@
     <string name="app_name">Citizen Science App</string>
     <string name="send">Send</string>
     <string name="ok">OK</string>
+    <string name="open">Open</string>
+    <string name="cancel">Cancel</string>
     <string name="check_internet_conn">Check your internet connection!</string>
     <string name="data_sent">Data sent successfully</string>
     <string name="measurement">Measurement</string>
     <string name="location">Location</string>
-    <string name="location_optional">Location (optional)</string>
+    <string name="location_optional">Location info (optional)</string>
     <string name="additional_info">Additional info</string>
     <string name="additional_info_optional">Additional info (optional)</string>
     <string name="hacettepe">Hacettepe</string>
@@ -18,5 +20,7 @@
 
     <string name="location_needed">Location Permission Needed</string>
     <string name="location_needed_detail">This app needs the Location permission, please accept to use location functionality</string>
+    <string name="open_location_service">Location service is closed, please open it.</string>
+    <string name="looking_for_gps">Looking for GPS location...</string>
 
 </resources>

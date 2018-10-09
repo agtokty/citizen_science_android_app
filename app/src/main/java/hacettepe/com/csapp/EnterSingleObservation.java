@@ -53,7 +53,7 @@ import hacettepe.com.csapp.util.Constants;
 
 public class EnterSingleObservation extends BaseBackActivity {
 
-    private long UPDATE_INTERVAL = 8 * 1000;  /* 8 secs */
+    private long UPDATE_INTERVAL = 6 * 1000;  /* 6 secs */
     private long FASTEST_INTERVAL = 2000; /* 2 sec */
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest mLocationRequest;
@@ -65,6 +65,9 @@ public class EnterSingleObservation extends BaseBackActivity {
     ProgressDialog progressDialog;
     private String observedPropertyName, observedPropertyDescription;
     private ConstraintLayout coordinatorLayout;
+
+    private boolean locationFound = false;
+    private Snackbar lookingForGPSSnackBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +82,8 @@ public class EnterSingleObservation extends BaseBackActivity {
 
         setTitle(observedPropertyName);
 
-
         coordinatorLayout = (ConstraintLayout) findViewById(R.id.layout_single_observation_send);
+        lookingForGPSSnackBar = Snackbar.make(coordinatorLayout, R.string.looking_for_gps, Snackbar.LENGTH_SHORT);
 
         button_send = (Button) findViewById(R.id.button_send_single_observation);
         tv_description = (TextView) findViewById(R.id.tv_property_description);
@@ -114,6 +117,7 @@ public class EnterSingleObservation extends BaseBackActivity {
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         startLocationUpdates();
+
     }
 
 
@@ -124,9 +128,7 @@ public class EnterSingleObservation extends BaseBackActivity {
         String text_value = et_value.getText().toString().trim();
 
         if (text_value.isEmpty()) {
-            Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, R.string.measurement_cannot_empty, Snackbar.LENGTH_SHORT);
-            snackbar.show();
+            Snackbar.make(coordinatorLayout, R.string.measurement_cannot_empty, Snackbar.LENGTH_SHORT).show();
             return;
         }
 
@@ -285,6 +287,9 @@ public class EnterSingleObservation extends BaseBackActivity {
     // Trigger new location updates at interval
     protected void startLocationUpdates() {
 
+        if (locationFound == false)
+            lookingForGPSSnackBar.show();
+
         // Create the location request to start receiving updates
         mLocationRequest = new LocationRequest();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -328,6 +333,8 @@ public class EnterSingleObservation extends BaseBackActivity {
                 Location location = locationList.get(locationList.size() - 1);
                 Log.i("Location", "Location: " + location.getLatitude() + " " + location.getLongitude());
                 mLastLocation = location;
+                locationFound = true;
+                lookingForGPSSnackBar.dismiss();
             }
         }
     };

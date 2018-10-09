@@ -1,9 +1,14 @@
 package hacettepe.com.csapp;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
+import android.os.Handler;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -29,7 +34,7 @@ public class MainActivity extends BaseActivity {
     private List<ObservedProperty> observedPropertyArrayList = new ArrayList<>();
     private RecyclerView recyclerView;
     private ObservedPropertyAdapter mAdapter;
-
+    private Boolean checkIfLocationService = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +66,17 @@ public class MainActivity extends BaseActivity {
         }));
 
         prepareObservedPropertyData();
-
         checkLocationPermission();
+
+        if (checkIfLocationService)
+            checkIfLocationServiceEnabled();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (checkIfLocationService)
+            checkIfLocationServiceEnabled();
     }
 
     private void prepareObservedPropertyData() {
@@ -105,6 +119,41 @@ public class MainActivity extends BaseActivity {
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         MY_PERMISSIONS_REQUEST_LOCATION);
             }
+        }
+    }
+
+    private void checkIfLocationServiceEnabled() {
+        Context context = getApplicationContext();
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+
+        try {
+            gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+            if (!gps_enabled) {
+                // notify user
+                AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                dialog.setMessage(R.string.open_location_service);
+                dialog.setPositiveButton(R.string.open, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        // TODO Auto-generated method stub
+                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        getApplicationContext().startActivity(myIntent);
+                    }
+                });
+                dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        // TODO Auto-generated method stub
+                    }
+                });
+                dialog.show();
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
