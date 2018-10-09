@@ -11,7 +11,7 @@
     <string name="additional_info_optional">Additional info (optional)</string>
     <string name="hacettepe">Hacettepe</string>
     <string name="please_wait">Please wait</string>
-    <string name="select_property">Select an observed observed property from the list to send observation.</string>
+    <string name="select_property">Select an observed property from the list to send observation.</string>
     <string name="app_info">Information about application*</string>
     <string name="continue_">Continue</string>
     <string name="measurement_cannot_empty">Measurement value cannot be empty!</string>
