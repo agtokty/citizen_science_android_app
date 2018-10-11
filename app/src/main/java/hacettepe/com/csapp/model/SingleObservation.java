@@ -10,7 +10,6 @@ public class SingleObservation {
     private double loc_lat;
     private double loc_lon;
     private double measurement;
-    private String measurement_text;
     private String usercode;
     private String username;
     private Date recorded_at;
@@ -72,14 +71,6 @@ public class SingleObservation {
 
     public void setMeasurement(Double measurement) {
         this.measurement = measurement;
-    }
-
-    public String getMeasurement_text() {
-        return measurement_text;
-    }
-
-    public void setMeasurement_text(String measurement_text) {
-        this.measurement_text = measurement_text;
     }
 
     public String getUsercode() {

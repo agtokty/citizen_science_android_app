@@ -153,7 +153,6 @@ public class EnterSingleObservation extends BaseBackActivity {
         SingleObservation singleObservation = new SingleObservation(requestCode, loc_desc, lat, lon, localDataBase.UserCode(), now);
         singleObservation.setCode(UUID.randomUUID().toString());
         singleObservation.setMeasurement(dValue);
-        singleObservation.setMeasurement_text(text_value);
         singleObservation.setProperty(observedPropertyName);
         singleObservation.setLoc_desc(loc_desc);
         singleObservation.setNote(note);
