@@ -123,7 +123,7 @@ public class EnterSingleObservation extends BaseBackActivity {
 
     private void getValuesAndSend() {
 
-        LocalData localData = new LocalData(getApplicationContext());
+        //LocalData localData = new LocalData(getApplicationContext());
 
         String text_value = et_value.getText().toString().trim();
 
@@ -142,18 +142,22 @@ public class EnterSingleObservation extends BaseBackActivity {
         if (mLastLocation != null) {
             lat = mLastLocation.getLatitude();
             lon = mLastLocation.getLongitude();
+        } else {
+            Snackbar.make(coordinatorLayout, R.string.cannot_get_location, Snackbar.LENGTH_SHORT).show();
+            return;
         }
 
         String requestCode = UUID.randomUUID().toString();
         Date now = new Date();
 
-        SingleObservation singleObservation = new SingleObservation(requestCode, loc_desc, lat, lon, localData.UserCode(), now);
+        SingleObservation singleObservation = new SingleObservation(requestCode, loc_desc, lat, lon, localDataBase.UserCode(), now);
         singleObservation.setCode(UUID.randomUUID().toString());
         singleObservation.setMeasurement(dValue);
         singleObservation.setMeasurement_text(text_value);
         singleObservation.setProperty(observedPropertyName);
         singleObservation.setLoc_desc(loc_desc);
         singleObservation.setNote(note);
+        singleObservation.setUsername(localDataBase.getStringValue(Constants.LOCALDATA_NAME, "unknown"));
 
         Gson gson = new Gson();
         String json = gson.toJson(singleObservation);

@@ -12,6 +12,7 @@ public class SingleObservation {
     private double measurement;
     private String measurement_text;
     private String usercode;
+    private String username;
     private Date recorded_at;
     private String property;
     private String note;
@@ -87,6 +88,14 @@ public class SingleObservation {
 
     public void setUsercode(String usercode) {
         this.usercode = usercode;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Date getRecorded_at() {

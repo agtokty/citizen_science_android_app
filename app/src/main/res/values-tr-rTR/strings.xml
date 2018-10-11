@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Citizen Science App</string>
+    <string name="app_name">Uzungöl Su Kalitesi</string>
+    <string name="project_name">Uzungölün Su Kalitesinin İzlenmesinde Sivil Bilim Yaklaşımının İncelenmesi</string>
     <string name="send">Gönder</string>
     <string name="ok">Tamam</string>
     <string name="open">Aç</string>
@@ -14,8 +15,8 @@
     <string name="additional_info_optional">Ek bilgi (isteğe bağlı)</string>
     <string name="hacettepe">Hacettepe</string>
     <string name="please_wait">Lütfen bekleyiniz</string>
-    <string name="select_property">Listeden gözlediğiniz özelliği seçip ölçümünüzü gönderebilirsiniz.</string>
-    <string name="app_info">Uygulama hakkında kısa bir bilgi *</string>
+    <string name="select_property">Gözlemdiğiniz özelliği aşağıdaki listeden seçip ölçümünüzü gönderebilirsiniz.</string>
+    <string name="app_info">Projenin temel amacı, Uzungöl’ün  su kalitesinin izlenmesi amacıyla sivil bilim yaklaşımının uygulanmasıdır. Bu amaca ulaşmak için öncelikle sivil bilim gönüllüleri tarafından su kalite ölçümleri yapılabilecek ölçüm noktaları belirlenecektir. İkinci olarak, göl için kritik olan ve aynı zamanda sivil bilim gönüllüleri tarafından kolay bir şekilde ölçülebilecek su kalite parametreleri belirlenecektir. </string>
     <string name="continue_">Devam Et</string>
     <string name="measurement_cannot_empty">Ölçüm değeri boş olamaz!</string>
 
@@ -23,5 +24,8 @@
     <string name="location_needed_detail">Bu uygulama konum iznine ihtiyaç duymaktadır, lütfen konum özelliğini kullanabilmek için kabul ediniz.</string>
     <string name="open_location_service">Konum servisi kapalı durumda, lütfen açınız.</string>
     <string name="looking_for_gps">GPS konumu aranıyor...</string>
+    <string name="cannot_get_location">Konumuzun alınamadı!</string>
+    <string name="person_name">Kişi/Kurum Adı</string>
+    <string name="enter_your_name">Lütfen isminizi giriniz</string>
 
 </resources>
