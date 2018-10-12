@@ -14,6 +14,8 @@ import android.os.Looper;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.Selection;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -68,6 +70,8 @@ public class EnterSingleObservation extends BaseBackActivity {
 
     private boolean locationFound = false;
     private Snackbar lookingForGPSSnackBar;
+    private int getLocationTryCount = 0;
+    private int maxLocationTryCount = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +147,19 @@ public class EnterSingleObservation extends BaseBackActivity {
             lat = mLastLocation.getLatitude();
             lon = mLastLocation.getLongitude();
         } else {
-            Snackbar.make(coordinatorLayout, R.string.cannot_get_location, Snackbar.LENGTH_SHORT).show();
+            getLocationTryCount++;
+            if (getLocationTryCount < maxLocationTryCount) {
+                Snackbar.make(coordinatorLayout, getString(R.string.cannot_get_location) + " (" + getLocationTryCount + "/" + maxLocationTryCount + ")", Snackbar.LENGTH_SHORT).show();
+                return;
+            } else {
+                et_location.setHint(R.string.location_must);
+                Selection.setSelection((Editable) et_location.getText(), et_location.getSelectionStart());
+                et_location.requestFocus();
+            }
+        }
+
+        if (getLocationTryCount >= maxLocationTryCount && loc_desc.isEmpty()) {
+            Snackbar.make(coordinatorLayout, R.string.set_loc_desc, Snackbar.LENGTH_SHORT).show();
             return;
         }
 
