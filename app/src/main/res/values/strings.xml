@@ -10,6 +10,7 @@
     <string name="measurement">Measurement</string>
     <string name="location">Location</string>
     <string name="location_optional">Location info (optional)</string>
+    <string name="location_must">Location info (required)</string>
     <string name="additional_info">Additional info</string>
     <string name="additional_info_optional">Additional info (optional)</string>
     <string name="hacettepe">Hacettepe</string>
@@ -26,5 +27,6 @@
     <string name="cannot_get_location">Cannot get your location!</string>
     <string name="person_name">Person/Foundation Name</string>
     <string name="enter_your_name">Please enter your name</string>
+    <string name="set_loc_desc">Please set the location info</string>
 
 </resources>

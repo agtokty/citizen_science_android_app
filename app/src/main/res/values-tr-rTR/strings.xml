@@ -11,6 +11,7 @@
     <string name="measurement">Ölçüm değeri</string>
     <string name="location">Konum Bilgisi</string>
     <string name="location_optional">Konum bilgisi (isteğe bağlı)</string>
+    <string name="location_must">Location info (zorunlu)</string>
     <string name="additional_info">Ek bilgi</string>
     <string name="additional_info_optional">Ek bilgi (isteğe bağlı)</string>
     <string name="hacettepe">Hacettepe</string>
@@ -24,8 +25,9 @@
     <string name="location_needed_detail">Bu uygulama konum iznine ihtiyaç duymaktadır, lütfen konum özelliğini kullanabilmek için kabul ediniz.</string>
     <string name="open_location_service">Konum servisi kapalı durumda, lütfen açınız.</string>
     <string name="looking_for_gps">GPS konumu aranıyor...</string>
+    <string name="enter_your_name">Lütfen isminizi giriniz</string>
     <string name="cannot_get_location">Konumuzun alınamadı!</string>
     <string name="person_name">Kişi/Kurum Adı</string>
-    <string name="enter_your_name">Lütfen isminizi giriniz</string>
+    <string name="set_loc_desc">Lütfen konum bilgisi giriniz.</string>
 
 </resources>
