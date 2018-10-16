@@ -124,6 +124,12 @@ public class EnterSingleObservation extends BaseBackActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+    }
 
     private void getValuesAndSend() {
 

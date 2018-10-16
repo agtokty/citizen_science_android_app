@@ -79,12 +79,18 @@ public class MainActivity extends BaseActivity {
             checkIfLocationServiceEnabled();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     private void prepareObservedPropertyData() {
         observedPropertyArrayList.add(new ObservedProperty("Su Sıcaklığı", ""));
         observedPropertyArrayList.add(new ObservedProperty("Ph", ""));
         observedPropertyArrayList.add(new ObservedProperty("Nitrat", ""));
+        observedPropertyArrayList.add(new ObservedProperty("Fosfat", ""));
     }
-
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
@@ -122,6 +128,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    private AlertDialog.Builder dialog;
     private void checkIfLocationServiceEnabled() {
         Context context = getApplicationContext();
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
@@ -132,7 +139,7 @@ public class MainActivity extends BaseActivity {
 
             if (!gps_enabled) {
                 // notify user
-                AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                dialog = new AlertDialog.Builder(MainActivity.this);
                 dialog.setMessage(R.string.open_location_service);
                 dialog.setPositiveButton(R.string.open, new DialogInterface.OnClickListener() {
                     @Override
@@ -150,6 +157,8 @@ public class MainActivity extends BaseActivity {
                     }
                 });
                 dialog.show();
+            }else{
+                checkIfLocationService = false;
             }
 
         } catch (Exception ex) {
