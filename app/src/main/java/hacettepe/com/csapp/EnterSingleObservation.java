@@ -120,7 +120,7 @@ public class EnterSingleObservation extends BaseBackActivity {
         imm.showSoftInput(et_value, InputMethodManager.SHOW_IMPLICIT);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        startLocationUpdates();
+        //startLocationUpdates();
 
     }
 
@@ -129,6 +129,18 @@ public class EnterSingleObservation extends BaseBackActivity {
         super.onBackPressed();
 
         mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startLocationUpdates();
     }
 
     private void getValuesAndSend() {
