@@ -8,7 +8,7 @@
     tools:context=".SplashActivity">
 
 
-    <ImageView
+<!--    <ImageView
         android:id="@+id/imageView"
         android:layout_width="203dp"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/hacettpe_logo" />
+        app:srcCompat="@drawable/hacettpe_logo" />-->
 
     <TextView
         android:id="@+id/textView"
